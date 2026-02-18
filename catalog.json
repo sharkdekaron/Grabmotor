@@ -1,8 +1,20 @@
 {
-  "updatedAt": "27-08-2025",
   "models": [
-    { "brand": "Honda", "name": "Click 160", "code": "CL160", "price": 78900 },
-    { "brand": "Honda", "name": "Wave 125", "code": "WV125", "price": 56900 },
-    { "brand": "Yamaha", "name": "Aerox", "code": "ARX155", "price": 85900 }
-  ]
+    { "brand": "Honda", "name": "Wave110", "code": "AFS110MCBT TH", "price": 57000 },
+    { "brand": "Honda", "name": "Wave110 TOP", "code": "AFS110MCBT 3TH", "price": 58000 },
+    { "brand": "Honda", "name": "Wave125", "code": "AFS125CSBT TH", "price": 67000 },
+    { "brand": "Honda", "name": "Wave125 RM", "code": "AFS125CSBT 2TH", "price": 70000 },
+    { "brand": "Honda", "name": "Scoopy Key", "code": "ACF110CBTT 3TH", "price": 59000 },
+    { "brand": "Honda", "name": "Scoopy cl12", "code": "ACF110CBTT TH", "price": 60000 },
+    { "brand": "Honda", "name": "Lead125", "code": "-", "price": 68000 },
+    { "brand": "Honda", "name": "Giorno std", "code": "ACF125CBT TH", "price": 75000 },
+    { "brand": "Honda", "name": "Giorno abs", "code": "ACF125CAS TH", "price": 78000 },
+    { "brand": "Honda", "name": "Click160", "code": "ACB160CATS 2TH", "price": 78900 },
+    { "brand": "Honda", "name": "Click160", "code": "ACB160CATS TH", "price": 78000 },
+    { "brand": "Honda", "name": "Pcx abs", "code": "WW160AS TH", "price": 110000 },
+    { "brand": "Honda", "name": "Pcx RS", "code": "WW160AS 2TH", "price": 115000 },
+    { "brand": "Honda", "name": "ADV", "code": "ADV160AS TH", "price": 120000 },
+    { "brand": "Yamaha", "name": "Filano", "code": "BJK400", "price": 75000 }
+  ],
+  "updatedAt": "2025-08-26T12:30:00Z"
 }
