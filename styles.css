@@ -260,3 +260,28 @@ body{
 @keyframes splashFade{
   to{ opacity:0; visibility:hidden; }
 }
+/* ===== Segmented Control ===== */
+.ios-cell-top{
+  padding-bottom:6px;
+  align-items:flex-end;
+}
+.seg{
+  display:flex;
+  gap:6px;
+  padding:0 14px 12px;
+}
+.seg button{
+  flex:1;
+  border:1px solid var(--line);
+  background:#f9fafb;
+  border-radius:12px;
+  padding:10px 8px;
+  font-size:14px;
+  font-weight:800;
+  color:#111;
+}
+.seg button.active{
+  background:#fff;
+  border-color:#d1d5db;
+  box-shadow: 0 1px 0 rgba(0,0,0,.02);
+}
