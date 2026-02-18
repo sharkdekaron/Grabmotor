@@ -222,3 +222,41 @@ body{
 }
 
 .bottom-safe{ height:24px; padding-bottom: env(safe-area-inset-bottom); }
+/* ===== Splash ===== */
+.splash{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#ffffff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.splash-inner{
+  text-align:center;
+  transform: translateY(-10px);
+}
+.splash-icon{
+  width:96px;
+  height:96px;
+  border-radius:22px;
+  box-shadow: var(--shadow);
+  margin-bottom:14px;
+}
+.splash-title{
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+.splash-sub{
+  margin-top:4px;
+  font-size:13px;
+  color:var(--muted);
+}
+.splash.hide{
+  animation: splashFade .25s ease-out forwards;
+}
+@keyframes splashFade{
+  to{ opacity:0; visibility:hidden; }
+}
