@@ -1,8 +1,0 @@
-{
-  "updatedAt": "27-08-2025",
-  "models": [
-    { "brand": "Honda", "name": "Click 160", "code": "CL160", "price": 78900 },
-    { "brand": "Honda", "name": "Wave 125", "code": "WV125", "price": 56900 },
-    { "brand": "Yamaha", "name": "Aerox", "code": "ARX155", "price": 85900 }
-  ]
-}
