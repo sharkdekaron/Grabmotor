@@ -1,5 +1,5 @@
 // ====== CONFIG ======
-const CATALOG_URL = "https://raw.githubusercontent.com/sharkdekaron/Grabmotor/main/catalog.json";
+const CATALOG_URL = "./catalog.json";
 
 // ดอกเบี้ยตามงวด (%/เดือน)
 const RATE_BY_MONTHS = { 18:1.07, 24:1.08, 30:1.09, 36:1.10, 42:1.11, 48:1.12 };
