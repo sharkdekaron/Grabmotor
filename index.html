@@ -2,88 +2,148 @@
 <html lang="th">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover" />
   <title>Grabmotor LoanCalc</title>
 
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#ffffff" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#f2f2f7" />
 
+  <!-- iOS Add to Home Screen -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="title">คำนวณค่างวด</div>
-    <button id="btnRefresh" class="icon-btn" title="รีเฟรช">⟳</button>
-  </header>
 
-  <main class="container">
-    <section class="card">
-      <div class="section-title">ยี่ห้อรถ</div>
-      <div class="field">
-        <label>ยี่ห้อ</label>
-        <select id="brandSelect"></select>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">รุ่นรถ</div>
-      <div class="field">
-        <label>รุ่น</label>
-        <select id="modelSelect"></select>
+  <!-- ===== Login Screen ===== -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-wrap">
+      <div class="login-brand">
+        <!-- ถ้ามี icon-192.png จะโชว์เป็นไอคอน -->
+        <img class="login-icon" src="icon-192.png" alt="Grabmotor" onerror="this.style.display='none'"/>
+        <div class="login-title">Grabmotor</div>
+        <div class="login-sub">Loan Calculator</div>
       </div>
 
-      <div class="kv">
-        <div class="row"><span>รหัส</span><span id="carCode" class="muted">-</span></div>
-        <div class="row"><span>ราคารถ</span><span id="carPrice" class="muted">-</span></div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">เงินดาวน์</div>
-      <div class="field">
-        <label>จำนวนเงิน (บาท)</label>
-        <input id="downInput" inputmode="numeric" placeholder="เช่น 20000 หรือ 20,000" />
-      </div>
-
-      <div class="kv">
-        <div class="row"><span>ยอดจัด (หลังหักดาวน์)</span><span id="principal" class="strong">-</span></div>
-        <div id="downWarn" class="warn hidden">เงินดาวน์มากกว่าราคารถ จะคิดยอดจัดเป็น 0 บาท</div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="section-title">เงื่อนไขผ่อน</div>
-      <div class="field">
-        <label>จำนวนงวด</label>
-        <select id="monthsSelect"></select>
+      <div class="ios-card">
+        <div class="ios-cell">
+          <div class="ios-label">รหัสพนักงาน</div>
+          <input id="username" class="ios-input" autocomplete="username" placeholder="เช่น sales01" />
+        </div>
+        <div class="ios-sep"></div>
+        <div class="ios-cell">
+          <div class="ios-label">รหัสผ่าน</div>
+          <input id="password" class="ios-input" type="password" autocomplete="current-password" placeholder="••••••••" />
+        </div>
       </div>
 
-      <div class="field">
-        <label>ดอกเบี้ย (%/เดือน)</label>
-        <input id="rateOverride" inputmode="decimal" placeholder="ไม่ใส่ = ใช้ตามงวดอัตโนมัติ" />
-        <div class="hint">อัตโนมัติ: 18=1.07% · 24=1.08% · 30=1.09% · 36=1.10% · 42=1.11% · 48=1.12%</div>
+      <button id="btnLogin" class="ios-btn-primary">เข้าสู่ระบบ</button>
+
+      <div id="loginError" class="ios-error hidden"></div>
+
+      <div class="login-foot">
+        <span class="muted">* ใช้สำหรับพนักงานภายในเท่านั้น</span>
       </div>
-    </section>
+    </div>
+  </div>
 
-    <section class="card">
-      <div class="section-title">สรุปค่างวด</div>
-
-      <div class="kv">
-        <div class="row"><span>ยอดจัด</span><span id="sumPrincipal" class="strong">-</span></div>
-        <div class="row"><span>ดอกเบี้ยรวม</span><span id="sumInterest">-</span></div>
-        <div class="row"><span>ยอดรวมทั้งหมด</span><span id="sumTotal">-</span></div>
-        <div class="row big"><span>ผ่อนต่อเดือน</span><span id="sumPerMonth" class="strong">-</span></div>
+  <!-- ===== App Screen ===== -->
+  <div id="appScreen" class="app-screen hidden">
+    <header class="nav">
+      <div class="nav-left">
+        <div class="nav-title">คำนวณค่างวด</div>
+        <div class="nav-sub" id="whoami"></div>
       </div>
+      <div class="nav-right">
+        <button id="btnReload" class="nav-icon" title="รีเฟรช">⟳</button>
+        <button id="btnLogout" class="nav-icon" title="ออกจากระบบ">⎋</button>
+      </div>
+    </header>
 
-      <button id="btnCopy" class="primary">📋 คัดลอกสรุป (รุ่น/รหัส/ราคา/ดาวน์/งวด)</button>
-      <div id="copyToast" class="toast hidden">คัดลอกแล้ว ✅</div>
+    <main class="content">
 
-      <div class="footnote" id="updatedAt"></div>
-      <div class="error" id="errorBox"></div>
-    </section>
-  </main>
+      <section class="group">
+        <div class="group-title">ยี่ห้อรถ</div>
+        <div class="group-card">
+          <div class="ios-cell">
+            <div class="ios-label">ยี่ห้อ</div>
+            <select id="brandSelect" class="ios-select"></select>
+          </div>
+        </div>
+      </section>
+
+      <section class="group">
+        <div class="group-title">รุ่นรถ</div>
+        <div class="group-card">
+          <div class="ios-cell">
+            <div class="ios-label">รุ่น</div>
+            <select id="modelSelect" class="ios-select"></select>
+          </div>
+          <div class="ios-sep"></div>
+          <div class="ios-kv">
+            <div class="kv-row"><span>รหัส</span><span id="carCode" class="muted">-</span></div>
+            <div class="kv-row"><span>ราคารถ</span><span id="carPrice" class="muted">-</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="group">
+        <div class="group-title">เงินดาวน์</div>
+        <div class="group-card">
+          <div class="ios-cell">
+            <div class="ios-label">จำนวนเงิน (บาท)</div>
+            <input id="downInput" class="ios-input" inputmode="numeric" placeholder="เช่น 20000 หรือ 20,000" />
+          </div>
+          <div class="ios-sep"></div>
+          <div class="ios-kv">
+            <div class="kv-row"><span>ยอดจัด (หลังหักดาวน์)</span><span id="principal" class="strong">-</span></div>
+            <div id="downWarn" class="ios-warn hidden">เงินดาวน์มากกว่าราคารถ จะคิดยอดจัดเป็น 0 บาท</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="group">
+        <div class="group-title">เงื่อนไขผ่อน</div>
+        <div class="group-card">
+          <div class="ios-cell">
+            <div class="ios-label">จำนวนงวด</div>
+            <select id="monthsSelect" class="ios-select"></select>
+          </div>
+
+          <div class="ios-sep"></div>
+
+          <div class="ios-cell">
+            <div class="ios-label">ดอกเบี้ย (%/เดือน)</div>
+            <input id="rateOverride" class="ios-input" inputmode="decimal" placeholder="ไม่ใส่ = ใช้ตามงวดอัตโนมัติ" />
+          </div>
+          <div class="ios-hint">
+            อัตโนมัติ: 18=1.07% · 24=1.08% · 30=1.09% · 36=1.10% · 42=1.11% · 48=1.12%
+          </div>
+        </div>
+      </section>
+
+      <section class="group">
+        <div class="group-title">สรุป</div>
+        <div class="group-card">
+          <div class="ios-kv">
+            <div class="kv-row"><span>ยอดจัด</span><span id="sumPrincipal" class="strong">-</span></div>
+            <div class="kv-row"><span>ดอกเบี้ยรวม</span><span id="sumInterest">-</span></div>
+            <div class="kv-row"><span>ยอดรวมทั้งหมด</span><span id="sumTotal">-</span></div>
+            <div class="kv-row kv-big"><span>ผ่อนต่อเดือน</span><span id="sumPerMonth" class="strong">-</span></div>
+          </div>
+
+          <button id="btnCopy" class="ios-btn">📋 คัดลอกสรุป (รุ่น/รหัส/ราคา/ดาวน์/งวด)</button>
+          <div id="copyToast" class="ios-toast hidden">คัดลอกแล้ว ✅</div>
+
+          <div id="updatedAt" class="ios-foot"></div>
+          <div id="errorBox" class="ios-error"></div>
+        </div>
+      </section>
+
+      <div class="bottom-safe"></div>
+    </main>
+  </div>
 
   <script src="app.js"></script>
   <script>
