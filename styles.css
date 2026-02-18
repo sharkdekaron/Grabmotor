@@ -1,12 +1,100 @@
-body {
-  font-family: -apple-system;
-  background: #f2f2f7;
-  padding: 20px;
+:root{
+  --bg:#f2f2f7;
+  --card:#ffffff;
+  --line:#e5e5ea;
+  --text:#111;
+  --muted:#6b7280;
+  --primary:#111;
+  --warn:#b91c1c;
 }
-
-select, input, button {
-  display: block;
-  margin-bottom: 12px;
-  padding: 10px;
-  width: 100%;
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
 }
+.topbar{
+  position:sticky; top:0;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:saturate(180%) blur(18px);
+  border-bottom:1px solid var(--line);
+}
+.title{font-weight:700; font-size:18px;}
+.icon-btn{
+  border:1px solid var(--line);
+  background:#fff;
+  padding:8px 10px;
+  border-radius:10px;
+  font-size:16px;
+}
+.container{
+  max-width:520px;
+  margin:14px auto 40px;
+  padding:0 12px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+}
+.section-title{
+  font-weight:700;
+  font-size:14px;
+  color:#1f2937;
+  margin-bottom:10px;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:10px;
+}
+label{font-size:12px;color:var(--muted)}
+select,input{
+  width:100%;
+  font-size:16px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.kv .row{
+  display:flex;
+  justify-content:space-between;
+  padding:10px 4px;
+  border-top:1px solid var(--line);
+}
+.kv .row:first-child{border-top:none}
+.kv .row.big{font-size:18px}
+.muted{color:var(--muted)}
+.strong{font-weight:800}
+.hint{font-size:12px;color:var(--muted);line-height:1.35}
+.warn{margin-top:8px; color:var(--warn); font-size:12px}
+.primary{
+  width:100%;
+  border:none;
+  padding:12px 14px;
+  border-radius:12px;
+  background:var(--primary);
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  margin-top:10px;
+}
+.toast{
+  margin-top:10px;
+  padding:10px 12px;
+  background:#ecfdf5;
+  border:1px solid #bbf7d0;
+  border-radius:12px;
+  color:#065f46;
+  font-size:13px;
+}
+.footnote{margin-top:10px;font-size:12px;color:var(--muted)}
+.error{margin-top:10px;font-size:12px;color:#b91c1c}
+.hidden{display:none}
