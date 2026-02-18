@@ -30,7 +30,7 @@ const dom = {
 
   brand: document.getElementById("brandSelect"),
   model: document.getElementById("modelSelect"),
-  months: document.getElementById("monthsSelect"),
+  monthsSeg: document.getElementById("monthsSeg"),
   down: document.getElementById("downInput"),
   rateOverride: document.getElementById("rateOverride"),
   btnCopy: document.getElementById("btnCopy"),
@@ -110,6 +110,7 @@ let catalog = { models: [], updatedAt: null };
 let brands = [];
 let currentBrand = "";
 let currentModelId = "";
+let selectedMonths = 24;
 
 function toNumber(input){
   const clean = String(input || "").replace(/,/g,"").replace(/฿/g,"").trim();
@@ -173,8 +174,22 @@ function renderModels(){
 
 function renderMonths(){
   const ms = Object.keys(RATE_BY_MONTHS).map(Number).sort((a,b)=>a-b);
-  dom.months.innerHTML = ms.map(m=>`<option value="${m}">${m} งวด</option>`).join("");
-  dom.months.value = ms.includes(24) ? "24" : String(ms[0] || 18);
+  // default 24 ถ้ามี
+  selectedMonths = ms.includes(24) ? 24 : (ms[0] || 18);
+
+  dom.monthsSeg.innerHTML = ms.map(m => `
+    <button type="button" data-m="${m}" class="${m===selectedMonths ? "active":""}">
+      ${m}
+    </button>
+  `).join("");
+
+  dom.monthsSeg.querySelectorAll("button").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      selectedMonths = Number(btn.dataset.m);
+      dom.monthsSeg.querySelectorAll("button").forEach(b=>b.classList.toggle("active", Number(b.dataset.m)===selectedMonths));
+      calcAndRender();
+    });
+  });
 }
 
 function selectedModel(){
@@ -188,7 +203,7 @@ function calcAndRender(){
 
   const carPrice = m.price;
   const down = toNumber(dom.down.value);
-  const months = Number(dom.months.value);
+  const months = Number(selectedMonths);
   const override = toNumber(dom.rateOverride.value);
   const ratePct = override > 0 ? override : (RATE_BY_MONTHS[months] || 0);
 
@@ -221,7 +236,7 @@ function copySummary(){
 - รุ่นรถ: ${m.name} (${m.code})
 - ราคารถ: ${thb(m.price)}
 - เงินดาวน์: ${thb(toNumber(dom.down.value))}
-- จำนวนงวด: ${dom.months.value} งวด`;
+- จำนวนงวด: ${selectedMonths} งวด`;
 
   (navigator.clipboard?.writeText(text) ?? Promise.reject())
     .then(showToast)
@@ -266,7 +281,6 @@ dom.btnReload.addEventListener("click", async ()=>{ await bootApp(); });
 
 dom.brand.addEventListener("change", ()=>{ currentBrand = dom.brand.value; renderModels(); calcAndRender(); });
 dom.model.addEventListener("change", ()=>{ currentModelId = dom.model.value; calcAndRender(); });
-dom.months.addEventListener("change", calcAndRender);
 dom.down.addEventListener("input", calcAndRender);
 dom.rateOverride.addEventListener("input", calcAndRender);
 dom.btnCopy.addEventListener("click", copySummary);
