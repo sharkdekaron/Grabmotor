@@ -272,10 +272,21 @@ dom.rateOverride.addEventListener("input", calcAndRender);
 dom.btnCopy.addEventListener("click", copySummary);
 
 // ====== START ======
-const s = getSession();
-if(s){
-  showApp(s);
-  bootApp();
-}else{
-  showLogin();
+function hideSplash(){
+  const sp = document.getElementById("splash");
+  if(!sp) return;
+  sp.classList.add("hide");
+  setTimeout(()=> sp.remove(), 300);
 }
+
+(async function start(){
+  const s = getSession();
+  if(s){
+    showApp(s);
+    await bootApp();
+  }else{
+    showLogin();
+  }
+  // ให้ splash อยู่สั้นๆ แบบ iOS
+  setTimeout(hideSplash, 350);
+})();
