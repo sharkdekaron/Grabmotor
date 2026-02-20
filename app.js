@@ -347,7 +347,28 @@ function buildInstallmentTable(){
   html += `</tbody>`;
   dom.installTable.innerHTML = html;
 }
+async function exportTableAsJpeg(){
+  const panel = document.querySelector(".sheet-panel");
 
+  if(!panel) return;
+
+  // ขยาย scroll ก่อน capture
+  const prevScroll = panel.scrollTop;
+  panel.scrollTop = 0;
+
+  const canvas = await html2canvas(panel, {
+    scale: 2,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+
+  panel.scrollTop = prevScroll;
+
+  const link = document.createElement("a");
+  link.download = "grabmotor-installment.jpg";
+  link.href = canvas.toDataURL("image/jpeg", 0.95);
+  link.click();
+}
 // ====== EVENTS ======
 dom.btnLogin.addEventListener("click", doLogin);
 dom.password.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
@@ -360,13 +381,13 @@ dom.model.addEventListener("change", ()=>{ currentModelId = dom.model.value; cal
 dom.down.addEventListener("input", calcAndRender);
 dom.rateOverride.addEventListener("input", calcAndRender);
 dom.btnCopy.addEventListener("click", copySummary);
-dom.btnTable.addEventListener("click", ()=>{
+dom.btnTable?.addEventListener("click", ()=>{
   buildInstallmentTable();
   openSheet();
 });
-dom.btnCloseSheet.addEventListener("click", closeSheet);
-dom.sheetBackdrop.addEventListener("click", closeSheet);
-dom.btnExportJpg.addEventListener("click", exportTableAsJpeg);
+dom.btnCloseSheet?.addEventListener("click", closeSheet);
+dom.sheetBackdrop?.addEventListener("click", closeSheet);
+dom.btnExportJpg?.addEventListener("click", exportTableAsJpeg);
 
 function bindTableEvents(){
   const btn = document.getElementById("btnTable");
@@ -415,28 +436,7 @@ function hideSplash(){
   }else{
     showLogin();
   }
-  async function exportTableAsJpeg(){
-  const panel = document.querySelector(".sheet-panel");
-
-  if(!panel) return;
-
-  // ขยาย scroll ก่อน capture
-  const prevScroll = panel.scrollTop;
-  panel.scrollTop = 0;
-
-  const canvas = await html2canvas(panel, {
-    scale: 2,
-    backgroundColor: "#ffffff",
-    useCORS: true
-  });
-
-  panel.scrollTop = prevScroll;
-
-  const link = document.createElement("a");
-  link.download = "grabmotor-installment.jpg";
-  link.href = canvas.toDataURL("image/jpeg", 0.95);
-  link.click();
-}
+  
   // ให้ splash อยู่สั้นๆ แบบ iOS
   setTimeout(hideSplash, 350);
 })();
