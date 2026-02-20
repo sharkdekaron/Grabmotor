@@ -155,11 +155,12 @@
       <div class="bottom-safe"></div>
     </main>
   </div>
-<!-- ===== Installment Table Sheet ===== -->
-<div id="tableSheet" class="sheet hidden" aria-hidden="true">
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <div id="tableSheet" class="sheet hidden" aria-hidden="true">
   <div class="sheet-backdrop" id="sheetBackdrop"></div>
 
-  <div class="sheet-panel" role="dialog" aria-modal="true">
+  <div class="sheet-panel">
     <div class="sheet-handle"></div>
 
     <div class="sheet-header">
@@ -167,28 +168,23 @@
         <div class="sheet-title">Grab Motor</div>
         <div class="sheet-sub" id="sheetMeta">-</div>
       </div>
-      <button id="btnCloseSheet" class="nav-icon" title="ปิด">✕</button>
-      <button id="btnExportJpg" class="nav-icon">🖼️</button>
+      <button id="btnCloseSheet" class="nav-icon">✕</button>
     </div>
 
-    <div class="sheet-summary" id="sheetSummary">
-      <!-- จะเติมจาก JS -->
-    </div>
+    <div class="sheet-summary" id="sheetSummary"></div>
 
     <div class="sheet-table-wrap">
-      <table class="sheet-table" id="installTable">
-        <!-- จะเติมจาก JS -->
-      </table>
+      <table class="sheet-table" id="installTable"></table>
     </div>
   </div>
 </div>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  
   <script src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js").catch(()=>{});
     }
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 </body>
 </html>
