@@ -168,6 +168,7 @@
         <div class="sheet-sub" id="sheetMeta">-</div>
       </div>
       <button id="btnCloseSheet" class="nav-icon" title="ปิด">✕</button>
+      <button id="btnExportJpg" class="nav-icon">🖼️</button>
     </div>
 
     <div class="sheet-summary" id="sheetSummary">
@@ -187,5 +188,6 @@
       navigator.serviceWorker.register("./sw.js").catch(()=>{});
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
