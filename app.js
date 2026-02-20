@@ -55,6 +55,8 @@ const dom = {
   installTable: document.getElementById("installTable"),
   sheetMeta: document.getElementById("sheetMeta"),
   sheetSummary: document.getElementById("sheetSummary"),
+
+  btnExportJpg: document.getElementById("btnExportJpg"),
 };
 
 // ====== AUTH (simple localStorage session) ======
@@ -364,6 +366,7 @@ dom.btnTable.addEventListener("click", ()=>{
 });
 dom.btnCloseSheet.addEventListener("click", closeSheet);
 dom.sheetBackdrop.addEventListener("click", closeSheet);
+dom.btnExportJpg.addEventListener("click", exportTableAsJpeg);
 
 // ====== START ======
 function hideSplash(){
@@ -381,6 +384,28 @@ function hideSplash(){
   }else{
     showLogin();
   }
+  async function exportTableAsJpeg(){
+  const panel = document.querySelector(".sheet-panel");
+
+  if(!panel) return;
+
+  // ขยาย scroll ก่อน capture
+  const prevScroll = panel.scrollTop;
+  panel.scrollTop = 0;
+
+  const canvas = await html2canvas(panel, {
+    scale: 2,
+    backgroundColor: "#ffffff",
+    useCORS: true
+  });
+
+  panel.scrollTop = prevScroll;
+
+  const link = document.createElement("a");
+  link.download = "grabmotor-installment.jpg";
+  link.href = canvas.toDataURL("image/jpeg", 0.95);
+  link.click();
+}
   // ให้ splash อยู่สั้นๆ แบบ iOS
   setTimeout(hideSplash, 350);
 })();
