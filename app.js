@@ -368,6 +368,37 @@ dom.btnCloseSheet.addEventListener("click", closeSheet);
 dom.sheetBackdrop.addEventListener("click", closeSheet);
 dom.btnExportJpg.addEventListener("click", exportTableAsJpeg);
 
+function bindTableEvents(){
+  const btn = document.getElementById("btnTable");
+  const sheet = document.getElementById("tableSheet");
+  const backdrop = document.getElementById("sheetBackdrop");
+  const closeBtn = document.getElementById("btnCloseSheet");
+
+  if(!btn) console.error("❌ ไม่พบปุ่ม #btnTable");
+  if(!sheet) console.error("❌ ไม่พบ #tableSheet");
+  if(!backdrop) console.error("❌ ไม่พบ #sheetBackdrop");
+  if(!closeBtn) console.error("❌ ไม่พบ #btnCloseSheet");
+
+  if(btn){
+    btn.addEventListener("click", ()=>{
+      try{
+        console.log("✅ กดปุ่มตารางผ่อน");
+        buildInstallmentTable();
+        openSheet();
+      }catch(e){
+        console.error("❌ ตารางผ่อน error:", e);
+        alert("ตารางผ่อนมีปัญหา: " + (e?.message || e));
+      }
+    });
+  }
+
+  if(closeBtn) closeBtn.addEventListener("click", closeSheet);
+  if(backdrop) backdrop.addEventListener("click", closeSheet);
+}
+
+// เรียกหลังจากหน้าโหลดแล้ว
+bindTableEvents();
+
 // ====== START ======
 function hideSplash(){
   const sp = document.getElementById("splash");
