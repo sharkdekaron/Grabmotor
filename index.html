@@ -144,6 +144,7 @@
           </div>
 
           <button id="btnCopy" class="ios-btn">📋 คัดลอกสรุป (รุ่น/รหัส/ราคา/ดาวน์/งวด)</button>
+          <button id="btnTable" class="ios-btn">📊 ตารางผ่อน (ดาวน์ % x งวด)</button>
           <div id="copyToast" class="ios-toast hidden">คัดลอกแล้ว ✅</div>
 
           <div id="updatedAt" class="ios-foot"></div>
@@ -154,7 +155,32 @@
       <div class="bottom-safe"></div>
     </main>
   </div>
+<!-- ===== Installment Table Sheet ===== -->
+<div id="tableSheet" class="sheet hidden" aria-hidden="true">
+  <div class="sheet-backdrop" id="sheetBackdrop"></div>
 
+  <div class="sheet-panel" role="dialog" aria-modal="true">
+    <div class="sheet-handle"></div>
+
+    <div class="sheet-header">
+      <div>
+        <div class="sheet-title">Grab Motor</div>
+        <div class="sheet-sub" id="sheetMeta">-</div>
+      </div>
+      <button id="btnCloseSheet" class="nav-icon" title="ปิด">✕</button>
+    </div>
+
+    <div class="sheet-summary" id="sheetSummary">
+      <!-- จะเติมจาก JS -->
+    </div>
+
+    <div class="sheet-table-wrap">
+      <table class="sheet-table" id="installTable">
+        <!-- จะเติมจาก JS -->
+      </table>
+    </div>
+  </div>
+</div>
   <script src="app.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
