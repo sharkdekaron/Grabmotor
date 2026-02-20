@@ -285,3 +285,112 @@ body{
   border-color:#d1d5db;
   box-shadow: 0 1px 0 rgba(0,0,0,.02);
 }
+/* ===== Bottom Sheet (iOS-like) ===== */
+.sheet{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+}
+.sheet-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.25);
+}
+.sheet-panel{
+  position:absolute;
+  left:0; right:0; bottom:0;
+  background:#fff;
+  border-top-left-radius:18px;
+  border-top-right-radius:18px;
+  box-shadow: 0 -16px 40px rgba(0,0,0,.18);
+  max-height: 86vh;
+  display:flex;
+  flex-direction:column;
+}
+.sheet-handle{
+  width:44px;
+  height:5px;
+  border-radius:999px;
+  background:#e5e7eb;
+  margin:10px auto 2px;
+}
+.sheet-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 14px 8px;
+  border-bottom:1px solid var(--line);
+}
+.sheet-title{
+  font-weight:900;
+  font-size:18px;
+}
+.sheet-sub{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:2px;
+}
+.sheet-summary{
+  padding:10px 14px 8px;
+  font-size:13px;
+  color:#111;
+  border-bottom:1px solid var(--line);
+}
+.sheet-summary .meta-row{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  padding:4px 0;
+}
+.sheet-summary .meta-row span:last-child{
+  font-weight:800;
+}
+
+.sheet-table-wrap{
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  padding:10px 10px 16px;
+}
+.sheet-table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  font-size:12px;
+}
+.sheet-table th, .sheet-table td{
+  padding:10px 8px;
+  border-bottom:1px solid #f0f0f2;
+  text-align:right;
+  white-space:nowrap;
+}
+.sheet-table th:first-child, .sheet-table td:first-child{
+  text-align:left;
+  position:sticky;
+  left:0;
+  background:#fff;
+  z-index:2;
+}
+.sheet-table thead th{
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:3;
+  border-bottom:1px solid var(--line);
+}
+.sheet-table thead th:first-child{
+  z-index:4;
+}
+.sheet-table .muted{
+  color:var(--muted);
+  font-weight:700;
+}
+.sheet-table .cell{
+  font-weight:800;
+}
+
+/* small animation */
+.sheet:not(.hidden) .sheet-panel{ animation: sheetUp .18s ease-out; }
+@keyframes sheetUp{
+  from{ transform:translateY(20px); opacity:.7; }
+  to{ transform:translateY(0); opacity:1; }
+}
