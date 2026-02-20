@@ -47,6 +47,14 @@ const dom = {
   sumInterest: document.getElementById("sumInterest"),
   sumTotal: document.getElementById("sumTotal"),
   sumPerMonth: document.getElementById("sumPerMonth"),
+
+  btnTable: document.getElementById("btnTable"),
+  tableSheet: document.getElementById("tableSheet"),
+  sheetBackdrop: document.getElementById("sheetBackdrop"),
+  btnCloseSheet: document.getElementById("btnCloseSheet"),
+  installTable: document.getElementById("installTable"),
+  sheetMeta: document.getElementById("sheetMeta"),
+  sheetSummary: document.getElementById("sheetSummary"),
 };
 
 // ====== AUTH (simple localStorage session) ======
@@ -272,6 +280,72 @@ async function bootApp(){
   }
 }
 
+function openSheet(){
+  dom.tableSheet.classList.remove("hidden");
+  dom.tableSheet.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden";
+}
+function closeSheet(){
+  dom.tableSheet.classList.add("hidden");
+  dom.tableSheet.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+
+function buildInstallmentTable(){
+  const m = selectedModel();
+  if(!m) return;
+
+  const monthsList = [12,18,24,30,36,42,48];
+  const downPercList = [0,5,10,15,25];
+
+  // ข้อมูลหัวตาราง
+  dom.sheetMeta.textContent = `${m.brand} • ${m.name} (${m.code})`;
+  dom.sheetSummary.innerHTML = `
+    <div class="meta-row"><span>ราคารถ</span><span>${thb(m.price)}</span></div>
+    <div class="meta-row"><span>ดอกเบี้ย override</span><span>${(toNumber(dom.rateOverride.value) > 0) ? (toNumber(dom.rateOverride.value).toFixed(2) + "%/เดือน") : "ใช้ตามงวด"}</span></div>
+  `;
+
+  // สร้าง header
+  let html = `<thead><tr>
+    <th class="muted">เงินดาวน์</th>
+    ${monthsList.map(mm => `<th>${mm} งวด</th>`).join("")}
+  </tr></thead><tbody>`;
+
+  // rate override ถ้ามี (ใช้ทั้งตาราง)
+  const override = toNumber(dom.rateOverride.value);
+  const overrideRatePct = override > 0 ? override : null;
+
+  // rows
+  for(const dp of downPercList){
+    const downAmt = Math.round(m.price * (dp/100));
+    const principal = Math.max(m.price - downAmt, 0);
+
+    html += `<tr>
+      <td><div><b>${dp}%</b> <span class="muted">(${thb(downAmt)})</span></div>
+          <div class="muted">ยอดจัด ${thb(principal)}</div>
+      </td>`;
+
+    for(const mm of monthsList){
+      const ratePct = overrideRatePct ?? (RATE_BY_MONTHS[mm] ?? 0);
+      const interest = principal * (ratePct/100) * mm;
+      const total = principal + interest;
+      const perMonth = mm > 0 ? (total/mm) : 0;
+
+      // ถ้าไม่มี rate สำหรับงวดนั้น ให้โชว์เป็น —
+      const cell = (ratePct > 0)
+        ? `<td class="cell">${thb(perMonth)}</td>`
+        : `<td class="muted">—</td>`;
+
+      html += cell;
+    }
+
+    html += `</tr>`;
+  }
+
+  html += `</tbody>`;
+  dom.installTable.innerHTML = html;
+}
+
 // ====== EVENTS ======
 dom.btnLogin.addEventListener("click", doLogin);
 dom.password.addEventListener("keydown", (e)=>{ if(e.key==="Enter") doLogin(); });
@@ -284,6 +358,12 @@ dom.model.addEventListener("change", ()=>{ currentModelId = dom.model.value; cal
 dom.down.addEventListener("input", calcAndRender);
 dom.rateOverride.addEventListener("input", calcAndRender);
 dom.btnCopy.addEventListener("click", copySummary);
+dom.btnTable.addEventListener("click", ()=>{
+  buildInstallmentTable();
+  openSheet();
+});
+dom.btnCloseSheet.addEventListener("click", closeSheet);
+dom.sheetBackdrop.addEventListener("click", closeSheet);
 
 // ====== START ======
 function hideSplash(){
