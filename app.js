@@ -134,16 +134,17 @@ function thb(n){
 
 function safeId(m){ return m.id || `${m.brand}__${m.name}__${m.code}`; }
 
-async function loadCatalog() {
+async function loadCatalog(){
   dom.err.textContent = "";
 
   const u = new URL(CATALOG_URL, window.location.href);
-  u.searchParams.set("v", String(Date.now())); // กัน cache และไม่ซ้อน ?v
+  u.searchParams.set("v", String(Date.now())); // กัน cache (ไม่ซ้อน ?)
 
-  const res = await fetch(u.toString(), { cache: "no-store" });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const res = await fetch(u.toString(), { cache:"no-store" });
+  if(!res.ok) throw new Error(`HTTP ${res.status}`);
 
   const obj = await res.json();
+
   catalog = Array.isArray(obj)
     ? { models: obj, updatedAt: null }
     : { models: obj.models || [], updatedAt: obj.updatedAt || null };
@@ -156,7 +157,7 @@ async function loadCatalog() {
     id: m.id || null
   }));
 
-  brands = [...new Set(catalog.models.map(m => m.brand).filter(Boolean))].sort();
+  brands = [...new Set(catalog.models.map(m=>m.brand).filter(Boolean))].sort();
   currentBrand = brands[0] || "";
 }
 function modelsForBrand(b){
