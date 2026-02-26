@@ -14,8 +14,9 @@
     { "brand": "Honda", "name": "Pcx abs", "code": "WW160AS TH", "price": 110000 },
     { "brand": "Honda", "name": "Pcx RS", "code": "WW160AS 2TH", "price": 116000 },
     { "brand": "Honda", "name": "ADV", "code": "ADV160AS TH", "price": 120000 },
-    { "brand": "Yamaha", "name": "Grand Filano Key", "code": "BJK5", "price": 74300 }
+
+    { "brand": "Yamaha", "name": "Grand Filano Key", "code": "BJK5", "price": 74300 },
     { "brand": "Yamaha", "name": "Grand Filano RMT", "code": "BJKA", "price": 79500 }
   ],
-  "updatedAt": "2025-08-26T12:30:00Z"
+  "updatedAt": "2026-03-1T12:30:00Z"
 }
